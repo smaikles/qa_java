@@ -22,7 +22,6 @@ public class LionTest {
         return new Object[][]{
                 {"Самец", true},
                 {"Самка", false},
-                {"Другое", false},
         };
     }
 
@@ -31,8 +30,10 @@ public class LionTest {
         MockitoAnnotations.openMocks(this);
     }
 
+
     String sex;
     boolean hasMane;
+
 
     public LionTest(String sex, boolean hasMane) {
         this.sex = sex;
@@ -40,40 +41,26 @@ public class LionTest {
     }
 
     @Test
-    public void getKittensCountCheck() {
-        try {
-            Lion lion = new Lion(sex, feline);
-            Mockito.when(lion.getKittens()).thenReturn(1);
-            Assert.assertEquals(1, lion.getKittens());
-        } catch (Exception e) {
-            errorMessageCheck(e);
-        }
+    public void getKittensCountCheck() throws Exception {
+        Lion lion = new Lion(sex, feline);
+        Mockito.when(feline.getKittens()).thenReturn(1);
+        Assert.assertEquals(1, lion.getKittens());
     }
 
     @Test
-    public void doesHaveManeCheck() {
-        try {
-            Lion lion = new Lion(sex, feline);
-            Assert.assertEquals(hasMane, lion.doesHaveMane());
-        } catch (Exception e) {
-            errorMessageCheck(e);
-        }
-    }
-
-    @Test
-    public void getFoodCheck() {
-        try {
-            Lion lion = new Lion(sex, feline);
-            List<String> expectedList = List.of("Животные", "Птицы", "Рыба");
-            Mockito.when(lion.getFood()).thenReturn(expectedList);
-            Assert.assertEquals(expectedList, lion.getFood());
-        } catch (Exception e) {
-            errorMessageCheck(e);
-        }
-    }
-
-    void errorMessageCheck(Exception e) {
+    public void doesHaveManeCheck() throws Exception {
+        Lion lion = new Lion(sex, feline);
         String message = "Используйте допустимые значения пола животного - самец или самка";
-        Assert.assertEquals(message, e.getMessage());
+        Assert.assertEquals(message, hasMane, lion.doesHaveMane());
     }
+
+    @Test
+    public void getFoodCheck() throws Exception {
+        Lion lion = new Lion(sex, feline);
+        List<String> expectedList = List.of("Животные", "Птицы", "Рыба");
+        Mockito.when(feline.getFood("Хищник")).thenReturn(expectedList);
+        Assert.assertEquals(expectedList, lion.getFood());
+
+    }
+
 }
